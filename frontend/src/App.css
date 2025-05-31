@@ -5,8 +5,7 @@
 
 @theme {
   --font-inter: 'Inter', sans-serif;
-  --color-myWhite : #F0F4F5;
-  --color-myBg : #BFD0D9;
+  --color-myBg : #F0F4F5;
   --color-myPrimary : #5E8B7E;
   --color-myPrimaryHover : #387060;
 }
