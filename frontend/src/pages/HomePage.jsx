@@ -1,12 +1,11 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Navbar from '../assets/components/navbar.jsx'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios'
 function HomePage() {
     return (
-        <div className="bg-[#F0F4F5] font-inter">
-            <Navbar />
-            <div className="flex flex-col items-center text-center mt-20">
+        <div className="bg-[#F0F4F5] font-inter pt-76">   
+            <div className="flex flex-col items-center text-center">
                 <h1 className="text-4xl font-bold mb-4 text-[#5E8B7E]">Calendar Of Regret</h1>
                 <p className="text-xl mt-5 mb-6 text-[#6E6E6E]">Instead of planning for the future, reflect on your past. Log what <br></br>you wish you hadn’t done, find learnings, and grow.</p>
             </div>
@@ -27,7 +26,7 @@ function HomePage() {
             </div>
 
             <div className="flex justify-center mt-10">
-                <button className="bg-[#F0F4F5] border -center px-4 py-2 mt-2 rounded-lg shadow-lg hover:bg-[#4A6B5F] self-end">
+                <button className="bg-[#F0F4F5] border -center px-4 py-2 mt-2 rounded-lg shadow-lg hover:bg-[#4A6B5F] self-end hover:text-white">
                     View Calendar Log
                 </button>
             </div>

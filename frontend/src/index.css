@@ -1,8 +1,20 @@
-@import 'tailwindcss';
 
-@tailwind utilities;
-@tailwind components;
-@tailwind base;
-@theme {
-  --font-inter: 'Inter', sans-serif;
+body{
+    margin: 0px;
 }
+
+button {
+    cursor: pointer;
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+    
+}
+
+input {
+    border: 1px black solid;
+}
+
+h1{
+    font-weight: bolder;
+}
+
