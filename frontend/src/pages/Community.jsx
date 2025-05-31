@@ -8,12 +8,12 @@ function CommunityPage() {
 
   },[])
   return (
-    <div className="bg-[#F0F4F5] min-h-screen font-inter pt-50">
-      <div className="flex justify-center mt-8">
+    <div className="bg-[#F0F4F5] min-h-screen font-inter pt-40">
+      <div className="flex justify-center">
         <FaPeopleGroup size={44} />
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mt-5">
         <h1 className="text-4xl font-bold text-[#5E8B7E] mb-4">
           Community Reflection
         </h1>
@@ -25,7 +25,7 @@ function CommunityPage() {
       </div>
 
       <div className="flex justify-center">
-        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2  h-80 mt-15">
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg  md:w-1/2  h-80 w-90  mt-15">
           <div className="flex flex-col w-full p-6">
             <h2 className="flex text-[#5E8B7E] font-bold justify-left text-2xl ">
               Share Your Reflection
@@ -48,7 +48,7 @@ function CommunityPage() {
         <h1 className="text-4xl font-bold text-[#5E8B7E] mb-4">
           Shared by Reflection
         </h1>
-        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2  h-80 mt-15"></div>
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg  md:w-1/2  h-80 w-90  mt-15"></div>
       </div>
       <div className="flex justify-center mt-10"></div>
     </div>
