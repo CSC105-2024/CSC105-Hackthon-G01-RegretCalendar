@@ -1,25 +1,25 @@
 import { FaPeopleGroup } from "react-icons/fa6";
 import socket from "../socket/socket"
-import {useState,useEffect} from "react"
+import { useState, useEffect } from "react"
 function CommunityPage() {
   useEffect(() => {
-    
-    
 
-  },[])
+
+
+  }, [])
   return (
     <div className="bg-[#F0F4F5] min-h-screen font-inter pt-40">
       <div className="flex justify-center">
         <FaPeopleGroup size={44} />
       </div>
 
-      <div className="flex flex-col items-center mt-5">
-        <h1 className="text-4xl font-bold text-[#5E8B7E] mb-4">
+      <div className="flex flex-col items-center mt-5 w-full">
+        <h1 className="text-4xl text-center font-bold text-[#5E8B7E] mb-4">
           Community Reflection
         </h1>
-        <p className="text-lg text-[#6E6E6E]">
+        <p className="text-lg text-center text-[#6E6E6E]">
           Share your reflections anonymously and learn from the experiences
-          <br></br> of others. This is a space for collective growth and
+          <br /> of others. This is a space for collective growth and
           understanding.
         </p>
       </div>
