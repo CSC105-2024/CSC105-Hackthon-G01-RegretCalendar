@@ -18,3 +18,7 @@ h1{
     font-weight: bolder;
 }
 
+.rdp-day_selected, .rdp-day_selected:focus, .rdp-day_selected:hover {
+  background-color: #4A6B5F !important;
+  color: #fff !important;
+}

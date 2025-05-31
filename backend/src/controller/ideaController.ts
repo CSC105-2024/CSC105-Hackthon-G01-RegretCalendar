@@ -97,6 +97,8 @@ export const getTodayIdea = async(c:Context) => {
     
     
     const today  = new Date().toISOString().split('T')[0];
+    
+    
     const userId = user.user.id;
    
     
@@ -108,3 +110,22 @@ export const getTodayIdea = async(c:Context) => {
     return c.json({error : err},500)
   }
 } 
+
+export const getIdeaByDay = async(c:Context) => {
+  try{
+    const user = c.get('user');
+    
+    
+    const {date} = await c.req.json();
+    
+    const userId = user.user.id;
+   
+    
+    const idea = await ideaModel.getTodayIdea(userId,date);
+    
+    return c.json({idea: idea})
+  }
+  catch(err){
+    return c.json({error : err},500)
+  }
+}

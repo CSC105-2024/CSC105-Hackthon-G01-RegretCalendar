@@ -1,4 +1,5 @@
 import { FaPeopleGroup } from "react-icons/fa6";
+<<<<<<< HEAD
 import socket from "../socket/socket";
 import { useState, useEffect } from "react";
 import {
@@ -69,25 +70,35 @@ function CommunityPage() {
     };
   }, []);
   if(!currentUser) return <>Loading..</>
+=======
+import socket from "../socket/socket"
+import { useState, useEffect } from "react"
+function CommunityPage() {
+  useEffect(() => {
+
+
+
+  }, [])
+>>>>>>> e94614eb7d2f789729212c842169aed7a634b761
   return (
-    <div className="bg-[#F0F4F5] min-h-screen font-inter pt-50">
-      <div className="flex justify-center mt-8">
+    <div className="bg-[#F0F4F5] min-h-screen font-inter pt-40">
+      <div className="flex justify-center">
         <FaPeopleGroup size={44} />
       </div>
 
-      <div className="flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-[#5E8B7E] mb-4">
+      <div className="flex flex-col items-center mt-5 w-full">
+        <h1 className="text-4xl text-center font-bold text-[#5E8B7E] mb-4">
           Community Reflection
         </h1>
-        <p className="text-lg text-[#6E6E6E]">
+        <p className="text-lg text-center text-[#6E6E6E]">
           Share your reflections anonymously and learn from the experiences
-          <br></br> of others. This is a space for collective growth and
+          <br /> of others. This is a space for collective growth and
           understanding.
         </p>
       </div>
 
       <div className="flex justify-center">
-        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2  h-80 mt-15">
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg  md:w-1/2  h-80 w-90  mt-15">
           <div className="flex flex-col w-full p-6">
             <h2 className="flex text-[#5E8B7E] font-bold justify-left text-2xl ">
               Share Your Reflection
@@ -115,6 +126,7 @@ function CommunityPage() {
         <h1 className="text-4xl font-bold text-[#5E8B7E] mb-4">
           Shared by Reflection
         </h1>
+<<<<<<< HEAD
         <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2 min-h-20 max-h-80 mt-15 flex-col overflow-auto space-y-1">
           {echoes?.map((value) => {
             const iso = value.createdAt;
@@ -154,6 +166,9 @@ function CommunityPage() {
             );
           })}
         </div>
+=======
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg  md:w-1/2  h-80 w-90  mt-15"></div>
+>>>>>>> e94614eb7d2f789729212c842169aed7a634b761
       </div>
       <div className="flex justify-center mt-10"></div>
     </div>

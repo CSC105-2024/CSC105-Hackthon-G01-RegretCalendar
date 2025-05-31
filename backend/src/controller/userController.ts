@@ -93,8 +93,6 @@ export const logoutUser = async(c:Context) => {
 export const getProfile = async (c:Context) => {
     try{
         const user = c.get('user');
-        
-       
         if(!user ) return c.json({error : "No user found"},404);
         
         

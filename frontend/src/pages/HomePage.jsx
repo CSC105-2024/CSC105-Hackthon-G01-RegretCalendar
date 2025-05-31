@@ -305,9 +305,6 @@ function HomePage() {
             )}
           </div>
         </div>
-      </div>
-      <div className="flex justify-center mt-10"></div>
-    </div>
-  );
+    );
 }
 export default HomePage;

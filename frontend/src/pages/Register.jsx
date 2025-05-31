@@ -23,27 +23,34 @@ function Register() {
     }
   }
   return (
-    <div className="w-full h-screen bg-myBg flex justify-center items-center">
-      <div className="w-2xl h-auto   bg-myWhite flex flex-col items-center rounded-2xl shadow-2xl bg-white ">
-        <div className="space-y-4 w-md py-10">
-          <h1 className="text-3xl text-center">Sign Up</h1>
-          <div>
-            <p>Email</p>
-            <Input type={"email"} placeholder={"Email"} value = {email} onChange = {(e) => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <p>Username</p>
-            <Input type={"text"} placeholder={"Username"} value = {username} onChange = {(e) => setUsername(e.target.value)} />
-          </div>
-          <div>
-            <p>Password</p>
-            <Input type={"password"} placeholder={"Password"} value = {password} onChange = {(e) => setPassword(e.target.value)}/>
-          </div>
-          <button className="w-full text-white bg-myPrimary rounded-xl py-2 mt-14 duration-300 hover:bg-myPrimaryHover" onClick={handleSubmit}>Sign Up</button>
-          <p className="flex justify-center ">Already have an account?  <span className="mx-1 text-myPrimary cursor-pointer duration-300 hover:text-myPrimaryHover hover:underline" onClick={() => window.location.href = "/login"}>Sign In</span></p>
-        </div>
+    <div className="min-h-screen bg-myBg flex justify-center items-center px-2">
+  <div className="w-full max-w-md bg-myWhite flex flex-col items-center rounded-2xl shadow-2xl bg-white">
+    <div className="space-y-4 w-full px-6 py-10">
+      <h1 className="text-3xl text-center">Sign Up</h1>
+      <div>
+        <p>Email</p>
+        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
+      <div>
+        <p>Username</p>
+        <Input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </div>
+      <div>
+        <p>Password</p>
+        <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      <button className="w-full text-white bg-myPrimary rounded-xl py-2 mt-10 duration-300 hover:bg-myPrimaryHover" onClick={handleSubmit}>
+        Sign Up
+      </button>
+      <p className="flex justify-center text-sm">
+        Already have an account?
+        <span className="mx-1 text-myPrimary cursor-pointer duration-300 hover:text-myPrimaryHover hover:underline" onClick={() => window.location.href = "/login"}>
+          Sign In
+        </span>
+      </p>
     </div>
+  </div>
+</div>
   );
 }
 

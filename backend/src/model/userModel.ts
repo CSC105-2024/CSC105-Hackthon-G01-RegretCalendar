@@ -63,6 +63,10 @@ export const loginUser = async (data: { email: string; password: string }) => {
       where: {
         email: data.email,
       },
+      include : {
+        ideas : true,
+        dailyLogs : true
+      }
     });
     
     if (!user)

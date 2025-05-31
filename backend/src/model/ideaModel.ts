@@ -31,17 +31,14 @@ export const getIdeasFromOneUser = async (id: string) => {
   return idea;
 };
 
-export const editIdea = async (id: string, data : {regret: string}) => {
-  
-  
+export const editIdea = async (id: string, data: { regret: string }) => {
   const idea = await db.idea.update({
-    where: { id : id },
+    where: { id: id },
     data: {
       regret: data.regret,
     },
   });
-  
-  
+
   return idea;
 };
 export const deleteIdea = async (id: string) => {
@@ -61,7 +58,6 @@ export const reframeIdea = async (id: string, reframed_regret: string) => {
 
 export const getTodayIdea = async (userId: string, today: string) => {
   try {
-    
     let idea = await db.idea.findFirst({
       where: {
         userId: userId,
@@ -70,20 +66,28 @@ export const getTodayIdea = async (userId: string, today: string) => {
         },
       },
     });
-    
-    
-    if (!idea) {
-      idea = await db.idea.create({
-        data: {
-          userId: userId,
-          regret: "",
-          reframed_regret: "",
-        },
-      });
-    }
+
+    if (!idea) return null;
     return idea;
   } catch (err) {
     console.log(err);
-    
+  }
+};
+
+export const getIdeaByDay = async (userId: string, day: string) => {
+  try {
+    let idea = await db.idea.findFirst({
+      where: {
+        userId: userId,
+        createdAt: {
+          gte: new Date(day),
+        },
+      },
+    });
+
+    if (!idea) return null;
+    return idea;
+  } catch (err) {
+    console.log(err);
   }
 };
