@@ -16,6 +16,8 @@ export const updateIdea = async (c: Context) => {
   try {
     const body = await c.req.json();
     const id = c.req.param("id");
+
+    
     const idea = await ideaModel.editIdea(id, body);
     if (!idea) return c.json({ err: "idea not found" }, 404);
     return c.json({ idea: idea });
@@ -54,9 +56,9 @@ export const deleteIdea = async (c: Context) => {
 export const reframer = async (c: Context) => {
   try {
     const { id, regret } = await c.req.json();
-
+    
     const prompt = `Reframe this regret into a positive life lesson:\n"${regret}"`;
-    console.log(regret, prompt);
+    
     const response = await axios.post(
       "https://api.deepinfra.com/v1/openai/chat/completions",
       {
@@ -75,8 +77,16 @@ export const reframer = async (c: Context) => {
         },
       }
     );
-    const idea = await ideaModel.reframeIdea(id, regret);
-    return c.json({ idea: idea });
+   
+    
+    const reframed = response.data.choices[0].message.content  ;
+    
+    
+    const idea = await ideaModel.reframeIdea(id, reframed);
+    
+    
+    
+    return c.json({ idea: idea,reframed : reframed });
   } catch (err) {
     return c.json({ error: err }, 500);
   }
@@ -84,10 +94,14 @@ export const reframer = async (c: Context) => {
 export const getTodayIdea = async(c:Context) => {
   try{
     const user = c.get('user');
+    
+    
     const today  = new Date().toISOString().split('T')[0];
-    const userId = user.id;
+    const userId = user.user.id;
+   
+    
     const idea = await ideaModel.getTodayIdea(userId,today);
-
+    
     return c.json({idea: idea})
   }
   catch(err){

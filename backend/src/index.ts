@@ -5,6 +5,7 @@ import { cors } from 'hono/cors'
 import { setupSocketIO } from "./socket/server.ts";
 import { Server as SocketIOServer } from "socket.io";
 import ideaRoute from "./route/ideaRoute.ts"
+import userRoute from "./route/userRoute.ts"
 import http from "http";
 const app = new Hono()
 export const db = new PrismaClient();
@@ -20,11 +21,15 @@ function nodeRequestToReadable(
   });
 } 
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // don't use '*'
+  credentials: true               // allow cookies, auth headers, etc.
+}));
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 app.route("/idea",ideaRoute);
+app.route('/user',userRoute)
 
 const handler = async (req: http.IncomingMessage, res: http.ServerResponse) => {
   const url = `http://${req.headers.host}${req.url}`;

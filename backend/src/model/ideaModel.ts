@@ -9,9 +9,10 @@ import { db } from "../index.ts";
 //   user            User?    @relation(fields: [userId], references: [id])
 //   userId          String?
 // }
-export const createIdea = async (data: { regret: string }) => {
+export const createIdea = async (data: { userId: string; regret: string }) => {
   const idea = await db.idea.create({
     data: {
+      userId: data.userId,
       regret: data.regret,
     },
   });
@@ -30,13 +31,17 @@ export const getIdeasFromOneUser = async (id: string) => {
   return idea;
 };
 
-export const editIdea = async (id: string, regret: string) => {
+export const editIdea = async (id: string, data : {regret: string}) => {
+  
+  
   const idea = await db.idea.update({
-    where: { id },
+    where: { id : id },
     data: {
-      regret: regret,
+      regret: data.regret,
     },
   });
+  
+  
   return idea;
 };
 export const deleteIdea = async (id: string) => {
@@ -55,22 +60,30 @@ export const reframeIdea = async (id: string, reframed_regret: string) => {
 };
 
 export const getTodayIdea = async (userId: string, today: string) => {
-  let idea = await db.idea.findFirst({
-    where: {
-      userId: userId,
-      createdAt: {
-        gte: new Date(today),
-      },
-    },
-  });
-  if (!idea) {
-    idea = await db.idea.create({
-      data: {
+  try {
+    
+    let idea = await db.idea.findFirst({
+      where: {
         userId: userId,
-        regret: "",
-        reframed_regret: "",
+        createdAt: {
+          gte: new Date(today),
+        },
       },
     });
+    
+    
+    if (!idea) {
+      idea = await db.idea.create({
+        data: {
+          userId: userId,
+          regret: "",
+          reframed_regret: "",
+        },
+      });
+    }
+    return idea;
+  } catch (err) {
+    console.log(err);
+    
   }
-  return idea
 };

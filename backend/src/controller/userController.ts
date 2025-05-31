@@ -32,6 +32,7 @@ export const getOneUser = async (c:Context) => {
     try{
         const id = c.req.param("id");
         const user = await userModel.getOneUser(id);
+        
         return c.json({user : user});
     }
     catch(err){
@@ -53,7 +54,7 @@ export const loginUser = async(c:Context) => {
     try{
         const body = await c.req.json();
         const user = await userModel.loginUser(body);
-
+        
         if (!user || Object.keys(user).length === 0) {
             return c.json({ error: "User not foundasdasd" }, 404);
         }
@@ -92,7 +93,11 @@ export const logoutUser = async(c:Context) => {
 export const getProfile = async (c:Context) => {
     try{
         const user = c.get('user');
-        if(!user) return c.json({error : "No user found"},404);
+        
+       
+        if(!user ) return c.json({error : "No user found"},404);
+        
+        
         return c.json({user : user})
     }
     catch(err){

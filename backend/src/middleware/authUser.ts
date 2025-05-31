@@ -20,6 +20,7 @@ export const authUser: MiddlewareHandler = async (c:Context,next) => {
 
     try{
         const {payload} = await jwtVerify(token,secret);
+        
         c.set('user',payload);
         await next();
     }
