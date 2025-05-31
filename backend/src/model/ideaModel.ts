@@ -1,5 +1,5 @@
 import { db } from "../index.ts";
-
+import { DateTime } from 'luxon';
 // model Idea {
 //   id              String   @id @default(uuid())
 //   regret          String
@@ -10,10 +10,14 @@ import { db } from "../index.ts";
 //   userId          String?
 // }
 export const createIdea = async (data: { userId: string; regret: string }) => {
+  const singaporeNow = DateTime.now().setZone('Asia/Singapore').toJSDate();
+  console.log(singaporeNow);
+  
   const idea = await db.idea.create({
     data: {
       userId: data.userId,
       regret: data.regret,
+      createdAt : singaporeNow
     },
   });
   return idea;
@@ -25,8 +29,8 @@ export const getAllIdeas = async () => {
 };
 
 export const getIdeasFromOneUser = async (id: string) => {
-  const idea = await db.idea.findUnique({
-    where: { id },
+  const idea = await db.idea.findMany({
+    where: { userId : id },
   });
   return idea;
 };

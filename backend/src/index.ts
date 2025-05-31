@@ -44,7 +44,7 @@ const handler = async (req: http.IncomingMessage, res: http.ServerResponse) => {
         ? undefined
         : nodeRequestToReadable(req),
     duplex: "half",
-  } as RequestInit & { duplex: "half" }); // ✅ allows 'du)
+  } as RequestInit & { duplex: "half" }); // allows 'du)
 
   const response = await app.fetch(request);
 
@@ -57,12 +57,12 @@ const handler = async (req: http.IncomingMessage, res: http.ServerResponse) => {
 const server = http.createServer(handler);
 export const io = new SocketIOServer(server, {
   cors: {
-    origin: "*", // adjust as needed
+    origin: "*", // adjustable
   },
 });
 setupSocketIO(io);
 
 server.listen(3001, () => {
-  console.log(`🚀 Server running at http://localhost:${3001}`);
+  console.log(`Server running at http://localhost:${3001}`);
 });
 

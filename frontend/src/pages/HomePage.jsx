@@ -27,7 +27,9 @@ function HomePage() {
   const [exists, setExists] = useState(false);
   const [ideas, setIdeas] = useState(null);
   const [matchedIdea, setMatchedIdea] = useState(null);
-  const [selectedIdea,setSelectedIdea] = useState(null);
+  const [selectedIdea, setSelectedIdea] = useState(null);
+  const [showDialogReframe, setShowDialogReframe] = useState(false);
+  const [open, setOpen] = useState(false);
   const handleSubmitReframer = async () => {
     try {
       const data = {
@@ -41,7 +43,10 @@ function HomePage() {
       console.log(err);
     }
   };
-
+  const handleSet = (value) => {
+    setReframe(value);
+    setOpen(false);
+  };
   const handleSubmit = async () => {
     try {
       if (exists) {
@@ -52,6 +57,7 @@ function HomePage() {
           `http://localhost:3001/idea/${logs.id}`,
           data
         ); // PATCH if editing
+        console.log(res.data);
       } else {
         const data = {
           userId: user.id,
@@ -76,16 +82,16 @@ function HomePage() {
 
         setUser(res.data.user.user);
         setIdeas(res.data.user.user.ideas);
+        fetchIdea(res.data.user.user.id);
       } catch (err) {
         console.log(err);
         window.location.href = "/login";
       }
     };
-    const fetchIdea = async () => {
+    const fetchIdea = async (userId) => {
       try {
-        const res = await axios.get(`http://localhost:3001/idea/${user?.id}`, {
-          withCredentials: true,
-        });
+        
+        const res = await axios.get(`http://localhost:3001/idea/${userId}`)
         console.log(res.data);
       } catch (err) {
         console.log(err);
@@ -97,9 +103,11 @@ function HomePage() {
           withCredentials: true,
         });
         console.log(res.data.idea);
-
+        setSelectedIdea(res.data.idea);
         if (res.data?.idea) {
           setExists(true);
+        } else {
+          setEditable(true);
         }
         if (res.data.idea.reframed_regret) {
           setRegretReframed(res.data.idea.reframed_regret);
@@ -113,7 +121,6 @@ function HomePage() {
       }
     };
     fetchUser();
-    fetchIdea();
     fetchTodayLog();
   }, []);
 
@@ -132,24 +139,23 @@ function HomePage() {
 
     setSelectedDate(date);
 
-    const selectedYMD = date.toLocaleDateString("en-CA", {
-      timeZone: "Asia/Singapore",
-    });
+    const selectedYMD = date.toLocaleDateString("en-CA");
 
     const foundIdea = ideas.find((idea) => {
-      const ideaYMD = new Date(idea.createdAt).toLocaleDateString("en-CA", {
-        timeZone: "Asia/Singapore",
-      });
+      const ideaYMD = new Date(idea.createdAt).toLocaleDateString("en-CA");
       console.log(ideaYMD, selectedYMD);
 
       return ideaYMD === selectedYMD;
     });
-
+    const shouldShow = !!foundIdea?.reframed_regret?.trim();
+    
+    setShowDialogReframe(shouldShow);
     setMatchedIdea(foundIdea || null);
-    
-      setSelectedIdea(foundIdea);
-    
+
+    setSelectedIdea(foundIdea);
+
     console.log("Matched idea:", foundIdea);
+    console.log(foundIdea?.reframed_regret);
   };
 
   return (
@@ -203,12 +209,13 @@ function HomePage() {
       </div>
 
       <div className="flex justify-center mt-10">
-        <Dialog>
-          <DialogTrigger asChild>
-            <button className="bg-[#F0F4F5] border -center px-4 py-2 mt-2 rounded-lg shadow-lg hover:bg-[#4A6B5F] self-end hover:text-white">
-              View Calendar Log
-            </button>
-          </DialogTrigger>
+        <button
+          className="bg-[#F0F4F5] border -center px-4 py-2 mt-2 rounded-lg shadow-lg hover:bg-[#4A6B5F] self-end hover:text-white"
+          onClick={() => setOpen(!open)}
+        >
+          View Calendar Log
+        </button>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="sm:max-w-[725px]">
             <DialogHeader>
               <DialogTitle>Calendar of Regret</DialogTitle>
@@ -254,9 +261,24 @@ function HomePage() {
                       ? selectedIdea.regret
                       : "No regret logged for this date."}
                   </p>
-                  <button className="flex items-center text-green-700 font-semibold mt-4 hover:underline">
+                  <button
+                    className="flex items-center text-green-700 font-semibold mt-4 hover:underline"
+                    onClick={() => handleSet(selectedIdea.regret)}
+                  >
                     <span className="mr-2">➕</span> Reframe this regret
                   </button>
+                  {showDialogReframe && (
+                    <div className="mt-10">
+                      <h1>Reframed Regret :</h1>
+                      <textarea
+                        name=""
+                        id=""
+                        value={selectedIdea?.reframed_regret}
+                        className="w-full h-30"
+                        disabled
+                      ></textarea>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -306,7 +328,7 @@ function HomePage() {
           </div>
         </div>
       </div>
-      </div>
-    );
+    </div>
+  );
 }
 export default HomePage;
