@@ -38,29 +38,29 @@ function Navbar() {
             </div>
             {/* Mobile side Nav*/}
             {isOpen && (
-                <div className="md:hidden fixed top-0 right-0 h-full w-64 bg-white shadow-lg flex flex-col items-end pt-20 z-50 transition-all duration-300">
+                <div className="md:hidden fixed top-0 right-0 h-full w-64 bg-[#5E8B7E] shadow-lg flex flex-col items-end pt-20 z-50 transition-all duration-300">
                     <button
                         onClick={toggleMenu}
-                        className="absolute top-4 right-4 text-[#5E8B7E]"
+                        className="absolute top-4 right-4 text-white"
                     >
                         <FiX size={28} />
                     </button>
                     <hr className="w-full border-t border-gray-200 my-0" />
                     <a
                         href="./"
-                        className="w-full text-right text-[#5E8B7E]  font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
+                        className="w-full text-right text-white  font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
                         onClick={() => setIsOpen(false)}>Home</a>
                         <hr className="w-full border-t border-gray-200 my-0" />
 
                     <a
                         href="./Community"
-                        className="w-full text-right text-[#5E8B7E] font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
+                        className="w-full text-right text-white font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
                         onClick={() => setIsOpen(false)}>Community</a>
                         <hr className="w-full border-t border-gray-200 my-0" />
 
                     <a
                         href="./Community"
-                        className="w-full text-right text-[#5E8B7E] font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
+                        className="w-full text-right text-white font-bold px-8 py-4 rounded-lg hover:bg-[#e0eae7]"
                         onClick={() => setIsOpen(false)}>Logout</a>
                         <hr className="w-full border-t border-gray-200 my-0" />
 
