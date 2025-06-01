@@ -55,7 +55,7 @@ export const deleteIdea = async (c: Context) => {
 };
 export const reframer = async (c: Context) => {
   try {
-    const { id, regret } = await c.req.json();
+    const { id, regret ,unframed_regret} = await c.req.json();
     
     const prompt = `Reframe this regret into a positive life lesson:\n"${regret}"`;
     
@@ -82,7 +82,7 @@ export const reframer = async (c: Context) => {
     const reframed = response.data.choices[0].message.content  ;
     
     
-    const idea = await ideaModel.reframeIdea(id, reframed);
+    const idea = await ideaModel.reframeIdea(id, reframed,unframed_regret);
     
     
     

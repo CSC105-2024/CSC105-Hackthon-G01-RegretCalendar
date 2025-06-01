@@ -66,3 +66,6 @@ server.listen(3001, () => {
   console.log(`Server running at http://localhost:${3001}`);
 });
 
+process.on('beforeExit', async () => {
+  await db.$disconnect()
+})

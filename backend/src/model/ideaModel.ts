@@ -52,10 +52,12 @@ export const deleteIdea = async (id: string) => {
   return idea;
 };
 
-export const reframeIdea = async (id: string, reframed_regret: string) => {
+export const reframeIdea = async (id: string, reframed_regret: string,unframed_regret : string) => {
   const idea = await db.idea.update({
     where: { id: id },
-    data: { reframed_regret: reframed_regret },
+    data: { 
+      unframed_regret : unframed_regret,
+      reframed_regret: reframed_regret },
   });
   return idea;
 };

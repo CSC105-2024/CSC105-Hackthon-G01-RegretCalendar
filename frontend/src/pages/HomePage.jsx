@@ -25,7 +25,7 @@ function HomePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [editable, setEditable] = useState(false); // whether the textarea is editable
   const [exists, setExists] = useState(false);
-  const [ideas, setIdeas] = useState(null);
+  const [ideas, setIdeas] = useState([]);
   const [matchedIdea, setMatchedIdea] = useState(null);
   const [selectedIdea, setSelectedIdea] = useState(null);
   const [showDialogReframe, setShowDialogReframe] = useState(false);
@@ -35,10 +35,13 @@ function HomePage() {
       const data = {
         id: logs.id,
         regret: reframe,
+        unframed_regret: reframe,
       };
       const res = await axios.post(`http://localhost:3001/idea/reframe`, data);
       setShowReframe(true);
       setRegretReframed(res.data.reframed);
+      setReframe(res.data.unframed_regret);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -76,25 +79,22 @@ function HomePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3001/user/api/profile", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `http://localhost:3001/user/api/profile?timestamp=${Date.now()}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(res.data.user);
 
-        setUser(res.data.user.user);
-        setIdeas(res.data.user.user.ideas);
-        fetchIdea(res.data.user.user.id);
+        console.log("IS ARRAY : ", Array.isArray(res.data.user.ideas));
+        console.log("FETCHED IDEAS : ", res.data.user.ideas);
+
+        setUser(res.data.user);
+        setIdeas(res.data.user.ideas);
       } catch (err) {
         console.log(err);
         window.location.href = "/login";
-      }
-    };
-    const fetchIdea = async (userId) => {
-      try {
-        
-        const res = await axios.get(`http://localhost:3001/idea/${userId}`)
-        console.log(res.data);
-      } catch (err) {
-        console.log(err);
       }
     };
     const fetchTodayLog = async () => {
@@ -111,6 +111,8 @@ function HomePage() {
         }
         if (res.data.idea.reframed_regret) {
           setRegretReframed(res.data.idea.reframed_regret);
+
+          setReframe(res.data.idea.unframed_regret);
           setShowReframe(true);
         }
 
@@ -124,40 +126,39 @@ function HomePage() {
     fetchTodayLog();
   }, []);
 
-  useEffect(() => {
-    const log = ideas?.find((idea) => {
-      const ideaDate = new Date(idea.createdAt).toISOString().split("T")[0];
-      const selected = selectedDate.toISOString().split("T")[0];
-      return ideaDate === selected;
-    });
-    console.log(log);
-  }, [selectedDate]);
-  if (!user) return <p>Loading...</p>;
   const handleDateSelect = (date) => {
     if (!date) return;
     console.log(date);
+    setSelectedDate(date); // This triggers the useEffect
+  };
+  useEffect(() => {
+    if (!selectedDate || !Array.isArray(ideas)) return;
+    if (!selectedDate || !Array.isArray(ideas)) return;
 
-    setSelectedDate(date);
+    // Helper: Get YYYY-MM-DD in Asia/Singapore timezone
+    const toLocalDateOnly = (date) =>
+      new Date(date).toLocaleDateString("en-CA", {
+        timeZone: "Asia/Singapore",
+      });
 
-    const selectedYMD = date.toLocaleDateString("en-CA");
+    const selectedYMD = toLocalDateOnly(selectedDate);
 
     const foundIdea = ideas.find((idea) => {
-      const ideaYMD = new Date(idea.createdAt).toLocaleDateString("en-CA");
+      const ideaYMD = toLocalDateOnly(idea.createdAt);
       console.log(ideaYMD, selectedYMD);
-
       return ideaYMD === selectedYMD;
     });
+
     const shouldShow = !!foundIdea?.reframed_regret?.trim();
-    
+
     setShowDialogReframe(shouldShow);
     setMatchedIdea(foundIdea || null);
-
     setSelectedIdea(foundIdea);
 
     console.log("Matched idea:", foundIdea);
-    console.log(foundIdea?.reframed_regret);
-  };
+  }, [selectedDate, ideas]);
 
+  if (!user) return <p>Loading...</p>;
   return (
     <div className="bg-[#F0F4F5] font-inter pt-52">
       <div className="flex flex-col items-center text-center">
@@ -168,13 +169,13 @@ function HomePage() {
         <h1 className="text-4xl font-bold mb-4 text-[#5E8B7E]">
           Calendar Of Regret
         </h1>
-        <p className="text-xl mt-5 mb-6 text-[#6E6E6E]">
+        <p className="md:text-xl text-lg mt-5 mb-6 text-[#6E6E6E]">
           Instead of planning for the future, reflect on your past. Log what{" "}
           <br></br>you wish you hadn’t done, find learnings, and grow.
         </p>
       </div>
       <div className="flex justify-center">
-        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2  h-80 mt-15">
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg md:w-1/2  h-80 w-90 mt-15">
           <div className="flex flex-col w-full p-6">
             <h2 className="flex justify-left text-2xl ">Today Reflection</h2>
             <p className="flex justify-left text-md text-[#6E6E6E]">
@@ -269,6 +270,8 @@ function HomePage() {
                   </button>
                   {showDialogReframe && (
                     <div className="mt-10">
+                      <h1>Unframed Regret :</h1>
+                      <p>{selectedIdea.unframed_regret}</p>
                       <h1>Reframed Regret :</h1>
                       <textarea
                         name=""
@@ -291,10 +294,10 @@ function HomePage() {
           </DialogContent>
         </Dialog>
       </div>
-      <hr className="h-px my-8 w-1/2 bg-black border-0 mx-auto" />
+      <hr className="h-px my-8 w-full md:w-1/2 bg-black border-0 mx-auto" />
 
       <div className="flex justify-center">
-        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg w-1/2  h-auto mt-15">
+        <div className="flex space-x-4 bg-white p-4 rounded-lg shadow-lg md:w-1/2  h-auto w-90 mt-15">
           <div className="flex flex-col w-full p-6">
             <h2 className="flex justify-left text-2xl ">Regret Reframer</h2>
             <p className="flex justify-left text-md text-[#6E6E6E]">
